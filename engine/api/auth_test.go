@@ -386,7 +386,6 @@ func Test_postAuthSigninHandler_WithCorporateSSO(t *testing.T) {
 		err = user.DeleteByID(api.mustDB(), u.ID)
 		require.NoError(t, err)
 	})
-
 }
 
 func generateToken(t *testing.T, username string) string {
