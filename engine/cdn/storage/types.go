@@ -157,6 +157,7 @@ type StorageConfiguration struct {
 	SyncParallel  int64                       `toml:"syncParallel" json:"sync_parallel" comment:"number of parallel sync processes"`
 	SyncBandwidth int64                       `toml:"syncBandwidth" json:"sync_bandwidth" comment:"global bandwith shared by the sync processes (in Mb)"`
 	Local         *LocalStorageConfiguration  `toml:"local" json:"local,omitempty" mapstructure:"local"`
+	Nfs           *NFSStorageConfiguration    `toml:"nfs" json:"nfs,omitempty" mapstructure:"nfs"`
 	Swift         *SwiftStorageConfiguration  `toml:"swift" json:"swift,omitempty" mapstructure:"swift"`
 	Webdav        *WebdavStorageConfiguration `toml:"webdav" json:"webdav,omitempty" mapstructure:"webdav"`
 	S3            *S3StorageConfiguration     `toml:"s3" json:"s3,omitempty" mapstructure:"s3"`
@@ -172,6 +173,15 @@ type CDSStorageConfiguration struct {
 	Host                  string `toml:"host" json:"host"`
 	InsecureSkipVerifyTLS bool   `toml:"insecureSkipVerifyTLS" json:"insecureSkipVerifyTLS"`
 	Token                 string `toml:"token" json:"-" comment:"consumer token must have the scopes Project (READ) and Run (READ)"`
+}
+
+type NFSStorageConfiguration struct {
+	Host            string                                  `toml:"host" json:"-"`
+	TargetPartition string                                  `toml:"targetPartition" json:"-"`
+	SubPath         string                                  `toml:"subPath" json:"-"`
+	UserID          uint32                                  `toml:"userID" json:"-"`
+	GroupID         uint32                                  `toml:"groupID" json:"-"`
+	Encryption      []convergent.ConvergentEncryptionConfig `toml:"encryption" json:"-"`
 }
 
 type SwiftStorageConfiguration struct {

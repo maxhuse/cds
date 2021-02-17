@@ -184,6 +184,18 @@ func Init(ctx context.Context, m *gorpmapper.Mapper, store cache.Store, db *gorp
 				return nil, err
 			}
 			storageUnit = sd
+		case cfg.Nfs != nil:
+			d := GetDriver("nfs")
+			sd, is := d.(StorageUnit)
+			if !is {
+				return nil, sdk.WithStack(fmt.Errorf("nfs driver is not a storage unit driver"))
+			}
+			sd.New(gorts, cfg.SyncParallel, float64(cfg.SyncBandwidth)*1024*1024) // convert from MBytes to Bytes
+
+			if err := sd.Init(ctx, cfg.Nfs); err != nil {
+				return nil, err
+			}
+			storageUnit = sd
 		case cfg.Swift != nil:
 			d := GetDriver("swift")
 			sd, is := d.(StorageUnit)
