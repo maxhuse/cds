@@ -28,7 +28,7 @@ Docker compose is very convenient to launch CDS for testing it. But this is not 
 
 ```bash
 $ mkdir /tmp/cdstest && cd /tmp/cdstest && mkdir -p tools/smtpmock
-$ curl https://raw.githubusercontent.com/ovh/cds/master/docker-compose.yml -o docker-compose.yml
+$ curl https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/docker-compose.yml -o docker-compose.yml
 $ export HOSTNAME=$(hostname)
 
 # Get the latest version
@@ -87,10 +87,10 @@ $ ./cdsctl user me
 $ docker-compose up -d cds-ui cds-hooks cds-elasticsearch cds-hatchery-swarm
 
 # create first worker model
-$ ./cdsctl worker model import https://raw.githubusercontent.com/ovh/cds/master/contrib/worker-models/go-official-1.13.yml
+$ ./cdsctl worker model import https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/contrib/worker-models/go-official-1.13.yml
 
 # import Import a workflow template
-$ ./cdsctl template push https://raw.githubusercontent.com/ovh/cds/master/contrib/workflow-templates/demo-workflow-hello-world/demo-workflow-hello-world.yml
+$ ./cdsctl template push https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/contrib/workflow-templates/demo-workflow-hello-world/demo-workflow-hello-world.yml
 Workflow template shared.infra/demo-workflow-hello-world has been created
 Template successfully pushed !
 
@@ -152,7 +152,7 @@ Users can store CDS Files on their repositories. This service clones user reposi
 - Import actions, example:
 
 ```bash
-$ ./cdsctl action import https://raw.githubusercontent.com/ovh/cds/master/contrib/actions/cds-docker-package.yml
+$ ./cdsctl action import https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/contrib/actions/cds-docker-package.yml
 ```
 
 ## Go further

@@ -188,7 +188,7 @@ export CDS_GITHUB_CLIENT_SECRET="xxxxxxxxxxx"
 
 mkdir -p tools/smtpmock
 
-curl https://raw.githubusercontent.com/ovh/cds/master/docker-compose.yml -o docker-compose.yml
+curl https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/docker-compose.yml -o docker-compose.yml
 export HOSTNAME=$(hostname)
 
 docker pull ovhcom/cds-engine:latest
@@ -227,9 +227,9 @@ sleep 3
 docker-compose up -d cds-ui cds-hooks cds-elasticsearch cds-hatchery-swarm cds-vcs cds-repositories
 sleep 5
 
-./cdsctl worker model import https://raw.githubusercontent.com/ovh/cds/master/contrib/worker-models/maven3-jdk10-official.yml
+./cdsctl worker model import https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/contrib/worker-models/maven3-jdk10-official.yml
 
-./cdsctl template push https://raw.githubusercontent.com/ovh/cds/master/contrib/workflow-templates/demo-workflow-hello-world/demo-workflow-hello-world.yml
+./cdsctl template push https://raw.githubusercontent.com/ovh/cds/{{< param "version" >}}/contrib/workflow-templates/demo-workflow-hello-world/demo-workflow-hello-world.yml
 ./cdsctl project create DEMO FirstProject
 ./cdsctl template apply DEMO MyFirstWorkflow shared.infra/demo-workflow-hello-world --force --import-push --quiet
 ./cdsctl workflow run DEMO MyFirstWorkflow
