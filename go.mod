@@ -104,10 +104,8 @@ require (
 	github.com/prometheus/client_golang v1.1.0 // indirect
 	github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4 // indirect
 	github.com/rasky/go-xdr v0.0.0-20170124162913-1a41d1a06c93 // indirect
-	github.com/richardlt/xutools v0.0.0-20200603155020-1bd33a66ce36 // indirect
 	github.com/rockbears/log v0.3.0
 	github.com/rubenv/sql-migrate v0.0.0-20160620083229-6f4757563362
-	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/sguiheux/go-coverage v0.0.0-20190710153556-287b082a7197
 	github.com/shirou/gopsutil v0.0.0-20170406131756-e49a95f3d5f8
@@ -120,15 +118,12 @@ require (
 	github.com/streadway/amqp v0.0.0-20180528204448-e5adc2ada8b8
 	github.com/stretchr/testify v1.6.1
 	github.com/studio-b12/gowebdav v0.0.0-20200303150724-9380631c29a1
-	github.com/t-yuki/gocover-cobertura v0.0.0-20180217150009-aaee18c8195c // indirect
 	github.com/tevino/abool v0.0.0-20170917061928-9b9efcf221b5
 	github.com/ugorji/go v1.1.7 // indirect
 	github.com/ulikunitz/xz v0.5.4 // indirect
 	github.com/urfave/cli v1.20.0
-	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/vmware/go-nfs-client v0.0.0-20190605212624-d43b92724c1b
 	github.com/vmware/govmomi v0.23.0
-	github.com/wadey/gocovmerge v0.0.0-20160331181800-b5bfa59ec0ad // indirect
 	github.com/whilp/git-urls v0.0.0-20160530060445-31bac0d230fa
 	github.com/xanzy/go-gitlab v0.15.0
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
@@ -138,7 +133,6 @@ require (
 	github.com/ziutek/mymysql v1.5.4 // indirect
 	go.opencensus.io v0.22.0
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
-	golang.org/x/exp v0.0.0-20191030013958-a1ab85dbe136
 	golang.org/x/net v0.0.0-20201021035429-f5854403a974
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c
