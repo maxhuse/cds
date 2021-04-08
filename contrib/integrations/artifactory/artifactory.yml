@@ -1,0 +1,13 @@
+name: Artifactory
+default_config:
+  artifactory_url:
+    type: string
+  artifactory_token_name:
+    type: string
+  artifactory_token:
+    type: password
+  artifactory_suffix_snapshot:
+    type: string
+  artifactory_suffix_release:
+    type: string
+artifact_manager: true

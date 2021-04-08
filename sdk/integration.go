@@ -301,6 +301,7 @@ type IntegrationModel struct {
 	Deployment              bool                 `json:"deployment" db:"deployment" yaml:"deployment" cli:"deployment_supported"`
 	Compute                 bool                 `json:"compute" db:"compute" yaml:"compute" cli:"compute_supported"`
 	Event                   bool                 `json:"event" db:"event" yaml:"event" cli:"event_supported"`
+	ArtifactManager         bool                 `json:"artifact_manager" db:"artifact_manager" yaml:"artifact_manager" cli:"artifact_manager_supported"`
 	Public                  bool                 `json:"public,omitempty" db:"public" yaml:"public,omitempty"`
 }
 
