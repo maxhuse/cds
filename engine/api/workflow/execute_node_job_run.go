@@ -323,6 +323,12 @@ func LoadDecryptSecrets(ctx context.Context, db gorp.SqlExecutor, wr *sdk.Workfl
 		if node == nil {
 			return nil, sdk.WrapError(sdk.ErrWorkflowNodeNotFound, "unable to find node %d in worflow run", nodeRun.WorkflowNodeID)
 		}
+		for _, integ := range wr.Workflow.Integrations {
+			if integ.Model.Event {
+				continue
+			}
+			entities = append(entities, fmt.Sprintf(SecretProjIntegrationContext, integ.ID))
+		}
 		if node.Context != nil {
 			if node.Context.ApplicationID != 0 {
 				entities = append(entities, fmt.Sprintf(SecretAppContext, node.Context.ApplicationID))

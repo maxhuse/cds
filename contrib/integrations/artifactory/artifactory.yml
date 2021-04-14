@@ -1,0 +1,9 @@
+name: Artifactory
+default_config:
+  artifactory.url:
+    type: string
+  artifactory.token:
+    type: password
+  artifactory.cds_repository:
+    type: string
+artifact_manager: true

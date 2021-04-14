@@ -10,6 +10,7 @@ export class IntegrationModel {
     hook: boolean;
     storage: boolean;
     deployment: boolean;
+    artifact_manager: boolean;
     compute: boolean;
     event: boolean;
     public: boolean;

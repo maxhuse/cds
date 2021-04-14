@@ -24,13 +24,21 @@ import { WarningModalComponent } from 'app/shared/modal/warning/warning.componen
 import { Column, ColumnType } from 'app/shared/table/data-table.component';
 import { ToastService } from 'app/shared/toast/ToastService';
 import { FeatureState } from 'app/store/feature.state';
-import { CleanRetentionDryRun, DeleteWorkflow, DeleteWorkflowIcon, UpdateWorkflow, UpdateWorkflowIcon } from 'app/store/workflow.action';
+import {
+    CleanRetentionDryRun,
+    DeleteWorkflow,
+    DeleteWorkflowIcon,
+    UpdateIntegrationsWorkflow,
+    UpdateWorkflow,
+    UpdateWorkflowIcon
+} from 'app/store/workflow.action';
 import { WorkflowState } from 'app/store/workflow.state';
 import cloneDeep from 'lodash-es/cloneDeep';
 import { CodemirrorComponent } from 'ng2-codemirror-typescript/Codemirror';
 import { DragulaService } from 'ng2-dragula-sgu';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { finalize, first } from 'rxjs/operators';
+import { ProjectIntegration } from 'app/model/integration.model';
 
 declare let CodeMirror: any;
 
@@ -42,7 +50,18 @@ declare let CodeMirror: any;
 })
 @AutoUnsubscribe()
 export class WorkflowAdminComponent implements OnInit, OnDestroy {
-    @Input() project: Project;
+
+    _project: Project;
+    @Input()
+    set project(project: Project) {
+        this._project = project;
+        if (project.integrations) {
+            this.filteredIntegrations = cloneDeep(project.integrations.filter(p => p.model.artifact_manager));
+        }
+    }
+    get project(): Project {
+        return this._project;
+    }
 
     _workflow: Workflow;
     @Input()
@@ -73,6 +92,9 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
     retentionRunsPolicyEnabled = false;
     maxRunsEnabled = false;
     codeMirrorConfig: any;
+
+    filteredIntegrations: Array<ProjectIntegration>;
+    selectedIntegration: ProjectIntegration;
 
     @ViewChild('updateWarning')
     private warningUpdateModal: WarningModalComponent;
@@ -404,6 +426,23 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
                 this._toast.success('', this._translate.instant('workflow_deleted'));
                 this._router.navigate(['/project', this.project.key], { queryParams: { tab: 'workflows' } });
             });
+    }
+
+    addIntegration() {
+        this.loading = true;
+        let workflowIntegrations = new Array<ProjectIntegration>(this.selectedIntegration);
+        if (this.workflow.integrations) {
+            workflowIntegrations = [this.selectedIntegration].concat(this.workflow.integrations)
+        }
+        this.store.dispatch(new UpdateIntegrationsWorkflow({
+            projectKey: this.project.key,
+            workflowName: this.workflow.name,
+            integrations: workflowIntegrations,
+        })).pipe(finalize(() => {
+            this.loading = false;
+            delete this.selectedIntegration;
+            this._cd.markForCheck();
+        })).subscribe();
     }
 
     fileEvent(event: { content: string, file: File }) {

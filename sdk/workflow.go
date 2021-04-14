@@ -60,7 +60,7 @@ type Workflow struct {
 	ToDelete                bool                         `json:"to_delete" db:"to_delete" cli:"-"`
 	Favorite                bool                         `json:"favorite" db:"-" cli:"favorite"`
 	WorkflowData            WorkflowData                 `json:"workflow_data" db:"workflow_data" cli:"-"`
-	Integrations            []ProjectIntegration         `json:"event_integrations,omitempty" db:"-" cli:"-"`
+	Integrations            []ProjectIntegration         `json:"integrations,omitempty" db:"-" cli:"-"`
 	AsCodeEvent             []AsCodeEvent                `json:"as_code_events,omitempty" db:"-" cli:"-"`
 	// aggregates
 	TemplateInstance *WorkflowTemplateInstance `json:"template_instance,omitempty" db:"-" cli:"-"`

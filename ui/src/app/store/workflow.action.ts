@@ -198,12 +198,12 @@ export class DeleteNotificationWorkflow {
 }
 
 //  ------- Event Integrations --------- //
-export class UpdateEventIntegrationsWorkflow {
-    static readonly type = '[Workflow] Update Event Integration in Workflow';
-    constructor(public payload: { projectKey: string, workflowName: string, eventIntegrations: ProjectIntegration[] }) { }
+export class UpdateIntegrationsWorkflow {
+    static readonly type = '[Workflow] Update Integration in Workflow';
+    constructor(public payload: { projectKey: string, workflowName: string, integrations: ProjectIntegration[] }) { }
 }
-export class DeleteEventIntegrationWorkflow {
-    static readonly type = '[Workflow] Delete Event Integration in Workflow';
+export class DeleteIntegrationWorkflow {
+    static readonly type = '[Workflow] Delete Integration in Workflow';
     constructor(public payload: { projectKey: string, workflowName: string, integrationId: number }) { }
 }
 
