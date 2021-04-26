@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jfrog/jfrog-client-go/artifactory"
@@ -84,7 +86,8 @@ func (e *artifactoryUploadArtifactPlugin) Run(_ context.Context, opts *integrati
 	pathToUpload := opts.GetOptions()["cds.integration.artifact_manager.upload.path"]
 	projectKey := opts.GetOptions()["cds.project"]
 	workflowName := opts.GetOptions()["cds.workflow"]
-	runNumber := opts.GetOptions()["cds.run.number"]
+	buildInfo := opts.GetOptions()["cds.integration.artifact_manager.build.info.path"]
+	version := opts.GetOptions()["cds.version"]
 
 	artiClient, err := e.createArtifactoryClient(artifactoryURL, token)
 	if err != nil {
@@ -94,8 +97,9 @@ func (e *artifactoryUploadArtifactPlugin) Run(_ context.Context, opts *integrati
 
 	params := services.NewUploadParams()
 	params.Pattern = pathToUpload
-	params.Target = fmt.Sprintf("%s/%s/%s/%s/", cdsRepo, projectKey, workflowName, runNumber)
+	params.Target = fmt.Sprintf("%s/%s/%s/%s/", cdsRepo, projectKey, workflowName, version)
 	params.Flat = true
+	params.BuildProps = fmt.Sprintf("build.name=%s/%s/%s;build.number=%s;build.timestamp=%d", buildInfo, projectKey, workflowName, url.QueryEscape(version), time.Now().Unix())
 	params.Retries = 5
 
 	summary, err := artiClient.UploadFilesWithSummary(params)

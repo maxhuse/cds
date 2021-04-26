@@ -668,7 +668,8 @@ export class WorkflowState {
         if (state.workflow && state.editMode) {
             const editWorkflow: Workflow = {
                 ...state.editWorkflow,
-                integrations: state.editWorkflow.integrations.filter((integ) => integ.id !== action.payload.integrationId)
+                integrations: state.editWorkflow.integrations
+                    .filter((integ) => integ.project_integration.id !== action.payload.projectIntegrationID)
             };
             ctx.setState({
                 ...state,
@@ -681,11 +682,12 @@ export class WorkflowState {
 
         return this._http.delete<null>(
             `/project/${action.payload.projectKey}/workflows/` +
-            `${action.payload.workflowName}/integration/${action.payload.integrationId}`
+            `${action.payload.workflowName}/integration/${action.payload.projectIntegrationID}`
         ).pipe(tap(() => {
             const workflow: Workflow = {
                 ...state.workflow,
-                integrations: state.workflow.integrations.filter((integ) => integ.id !== action.payload.integrationId)
+                integrations: state.workflow.integrations
+                    .filter((integ) => integ.project_integration.id !== action.payload.projectIntegrationID)
             };
 
             return ctx.dispatch(new actionWorkflow.UpdateWorkflow({

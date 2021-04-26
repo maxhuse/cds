@@ -14,7 +14,7 @@ import { ModalTemplate, SuiActiveModal, SuiModalService, TemplateModalConfig } f
 import { EventService } from 'app/event.service';
 import { Project } from 'app/model/project.model';
 import { RunToKeep } from 'app/model/purge.model';
-import { Workflow } from 'app/model/workflow.model';
+import { Workflow, WorkflowProjectIntegration } from 'app/model/workflow.model';
 import { FeatureNames } from 'app/service/feature/feature.service';
 import { ThemeStore } from 'app/service/theme/theme.store';
 import { WorkflowRunService } from 'app/service/workflow/run/workflow.run.service';
@@ -25,7 +25,7 @@ import { Column, ColumnType } from 'app/shared/table/data-table.component';
 import { ToastService } from 'app/shared/toast/ToastService';
 import { FeatureState } from 'app/store/feature.state';
 import {
-    CleanRetentionDryRun,
+    CleanRetentionDryRun, DeleteIntegrationWorkflow,
     DeleteWorkflow,
     DeleteWorkflowIcon,
     UpdateIntegrationsWorkflow,
@@ -68,6 +68,7 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
     set workflow(data: Workflow) {
         if (data) {
             this._workflow = cloneDeep(data);
+            this.nbEventIntegrations = this._workflow.integrations.filter(i => i.project_integration.model.event).length
         }
     }
     get workflow() {
@@ -94,6 +95,7 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
     codeMirrorConfig: any;
 
     filteredIntegrations: Array<ProjectIntegration>;
+    nbEventIntegrations: number;
     selectedIntegration: ProjectIntegration;
 
     @ViewChild('updateWarning')
@@ -430,9 +432,12 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
 
     addIntegration() {
         this.loading = true;
-        let workflowIntegrations = new Array<ProjectIntegration>(this.selectedIntegration);
+        let workflowIntegrations = new Array<WorkflowProjectIntegration>();
+        let wi = new WorkflowProjectIntegration();
+        wi.project_integration = this.selectedIntegration;
+        workflowIntegrations.push(wi);
         if (this.workflow.integrations) {
-            workflowIntegrations = [this.selectedIntegration].concat(this.workflow.integrations)
+            workflowIntegrations = [wi].concat(this.workflow.integrations)
         }
         this.store.dispatch(new UpdateIntegrationsWorkflow({
             projectKey: this.project.key,
@@ -452,5 +457,21 @@ export class WorkflowAdminComponent implements OnInit, OnDestroy {
         }
         this.iconUpdated = true;
         this._workflow.icon = event.content;
+    }
+
+    clickDeleteIntegration(integ: WorkflowProjectIntegration) {
+        this.loading = true;
+        this.store.dispatch(new DeleteIntegrationWorkflow({
+            projectKey: this.project.key,
+            workflowName: this.workflow.name,
+            projectIntegrationID: integ.project_integration_id
+        })).pipe(finalize(() => {
+            this.loading = false;
+            this._cd.markForCheck();
+        })).subscribe();
+    }
+
+    filterIntegration(integ: WorkflowProjectIntegration): boolean {
+        return !integ.project_integration.model.event;
     }
 }
